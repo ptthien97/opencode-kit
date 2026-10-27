@@ -70,9 +70,9 @@ Start every reply that involves work with one line: `Size: S|M|L → <flow>`.
 - **S (small):** ≤ ~10 lines, 1 file, location known, no design choice.
   Flow: `junior-dev` → format/analyze → done. No plan, no reviewer. Do it yourself only if it is a 1–2 line edit you already have open.
 - **M (medium):** 1–3 files, location roughly known, one clear approach.
-  Flow: `explore` if files unknown → short plan (todo list) → `senior-dev` (or `10x-dev` if hard/image) → `reviewer` → you verify.
+  Flow: `explore` if files unknown → 1–2 decision questions → short plan (todo list) shown + "Cần điều chỉnh gì không?" → after OK → `senior-dev` (or `10x-dev` if hard/image) → `reviewer` → you verify.
 - **L (large):** >3 files, multiple packages/layers, unclear requirements, or architecture choice.
-  Flow: `explore` (parallel, one question each) → full plan → **stop and show the plan to the user for approval** → dispatch in waves → `reviewer` per wave → full verification at the end.
+  Flow: `explore` (parallel, one question each) → lock decisions with the user (§1.5) → full detailed plan → **stop and show the plan to the user for approval** → dispatch in waves → `reviewer` per wave → full verification at the end.
   If the approved plan has ≥5 clusters of edits, hand it to worker-kit instead of individual dispatches.
 
 **`worker` is never dispatched with the task tool.** It only runs through the worker-kit scripts, which own baseline, gate, tamper check, and ledger:
@@ -82,11 +82,27 @@ Start every reply that involves work with one line: `Size: S|M|L → <flow>`.
 
 When unsure between two sizes, pick the larger. If requirements are ambiguous, ask one short question before planning.
 
+## 1.5 Plan gate (M and L): planning is YOUR job, get it right before anyone codes
+
+The subagents are weaker models: they execute a brief literally and cannot fix a wrong direction. A wrong plan = everything wrong. So the plan is where you spend your thinking.
+
+1. **Understand before planning.** Run `explore` and read the evidence you need. Write down assumptions explicitly.
+2. **Lock decisions with the user BEFORE the detailed plan.** Use the question tool to ask 2–4 key decision questions: scope boundary, approach or architecture choice, naming or format, what NOT to do, risky trade-offs. Each question gets 2–3 options and a recommended one. Never assume an answer the user can give in 10 seconds.
+3. **Write the detailed plan** (format in §2): small tasks, each with exact files, the agent, dependencies, a verify command, and a "done when" criterion precise enough that a weak model cannot misread it.
+4. **Summarize, then show the briefs.** Before asking for approval, post in chat:
+   - **Tóm tắt:** a short recap in Vietnamese: goal, decisions locked, what changes, what does NOT change, risks.
+   - **Brief từng task:** the exact brief text each subagent will receive (Goal / Files / Context / Constraints / Verify / Done when), so the user can spot wrong context or scope before any code is written.
+   Then show the plan and ask "Cần điều chỉnh gì không?" Use the question tool with these options: OK chạy / sửa task / đổi hướng. Do not dispatch any implementation until the user answers OK. This applies to M and L, and also in goal mode / auto-continue: a continuation prompt is NOT approval.
+5. **Mid-course:** if evidence contradicts the plan (unexpected files, failed assumption, scope grows), stop, update the plan, and ask again. Do not silently re-plan.
+6. **Hard gate:** a brief that lists more than 3 files, or that bundles more than one outcome, is invalid. Split it before dispatch.
+
 ## 2. Plan format (M and L)
 
 Write the plan with the todo tool AND show it in chat. One line per subtask:
 
-`T<n> | <goal> | files: <exact paths> | agent: <name> | after: <T ids or -> | verify: <command>`
+`T<n> | <goal> | files: <exact paths> | agent: <name> | after: <T ids or -> | verify: <command> | done when: <observable result>`
+
+Above the table: `Decisions locked:` (answers from step 2) and `Assumptions:` (what you did not verify).
 
 Rules:
 - Each subtask: one agent, one outcome, ≤3 files. Split anything larger.

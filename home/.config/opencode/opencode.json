@@ -1,0 +1,951 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "localproxyapi/claude-opus-5-5",
+  "small_model": "localproxyapi/deepseek-v4.1-flash",
+  "default_agent": "orchestrator",
+  "share": "disabled",
+  "autoupdate": "notify",
+  "snapshot": true,
+  "instructions": [
+    "AGENTS.md"
+  ],
+  "skills": {
+    "paths": [
+      "__HOME__/.config/opencode/skills",
+      "__HOME__/.agents/skills"
+    ]
+  },
+  "provider": {
+    "vua": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Vua",
+      "options": {
+        "baseURL": "https://llmrouter.space/v1",
+        "apiKey": "{file:~/.secrets/opencode/vua-apikey}",
+        "timeout": 300000,
+        "chunkTimeout": 90000
+      },
+      "models": {
+        "kimi-k3": {
+          "name": "Kimi K3",
+          "tool_call": true,
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 1048576,
+            "output": 131072
+          },
+          "variants": {
+            "low": {
+              "reasoningEffort": "low"
+            },
+            "medium": {
+              "reasoningEffort": "medium"
+            },
+            "high": {
+              "reasoningEffort": "high"
+            },
+            "max": {
+              "reasoningEffort": "max"
+            }
+          },
+          "options": {
+            "reasoningEffort": "max"
+          }
+        },
+        "glm-5.3": {
+          "name": "GLM-5.3",
+          "tool_call": true,
+          "options": {
+            "reasoningEffort": "max"
+          },
+          "variants": {
+            "low": {
+              "reasoningEffort": "low"
+            },
+            "high": {
+              "reasoningEffort": "high"
+            },
+            "max": {
+              "reasoningEffort": "max"
+            },
+            "medium": {
+              "reasoningEffort": "medium"
+            }
+          },
+          "limit": {
+            "context": 1048576,
+            "output": 128000
+          },
+          "modalities": {
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        "deepseek-v4.1-flash": {
+          "name": "DeepSeek V4.1 Flash (vua)",
+          "tool_call": true,
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 1048576,
+            "output": 384000
+          },
+          "variants": {
+            "low": {
+              "reasoningEffort": "low"
+            },
+            "medium": {
+              "reasoningEffort": "medium"
+            },
+            "high": {
+              "reasoningEffort": "high"
+            },
+            "max": {
+              "reasoningEffort": "max"
+            }
+          },
+          "options": {
+            "reasoningEffort": "max"
+          }
+        },
+        "deepseek-v4-pro-0813": {
+          "name": "DeepSeek V4 Pro (vua)",
+          "tool_call": true,
+          "limit": {
+            "context": 1048576,
+            "output": 128000
+          }
+        }
+      }
+    },
+    "localproxyapi": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "LocalProxyAPI",
+      "options": {
+        "baseURL": "http://127.0.0.1:8317/v1",
+        "apiKey": "{file:~/.secrets/opencode/localproxyapi-apikey}",
+        "timeout": 300000,
+        "chunkTimeout": 90000
+      },
+      "models": {
+        "kimi-k3": {
+          "name": "Kimi K3 (Local)",
+          "tool_call": true,
+          "limit": {
+            "context": 1048576,
+            "output": 131072
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "variants": {
+            "low": {
+              "reasoningEffort": "low"
+            },
+            "medium": {
+              "reasoningEffort": "medium"
+            },
+            "high": {
+              "reasoningEffort": "high"
+            },
+            "max": {
+              "reasoningEffort": "max"
+            }
+          },
+          "options": {
+            "reasoningEffort": "max"
+          }
+        },
+        "deepseek-v4.1-flash": {
+          "name": "DeepSeek V4.1 Flash (Local)",
+          "tool_call": true,
+          "limit": {
+            "context": 1048576,
+            "output": 384000
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "variants": {
+            "low": {
+              "reasoningEffort": "low"
+            },
+            "medium": {
+              "reasoningEffort": "medium"
+            },
+            "high": {
+              "reasoningEffort": "high"
+            },
+            "max": {
+              "reasoningEffort": "max"
+            }
+          }
+        },
+        "grok-build-0.1": {
+          "name": "Grok Build 0.1 (Local)",
+          "tool_call": true,
+          "limit": {
+            "context": 256000,
+            "output": 65536
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        "gemini-3.8-flash-high": {
+          "name": "Gemini 3.8 Flash High (Local)",
+          "tool_call": true,
+          "limit": {
+            "context": 1048576,
+            "output": 65536
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        "claude-opus-4-6-thinking": {
+          "name": "Claude Opus 4.6 Thinking (Local)",
+          "tool_call": true,
+          "limit": {
+            "context": 200000,
+            "output": 64000
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        "claude-opus-5-5": {
+          "name": "Claude Opus 5.5 (Local)",
+          "tool_call": true,
+          "options": {
+            "reasoningEffort": "high"
+          },
+          "variants": {
+            "low": {
+              "reasoningEffort": "low"
+            },
+            "medium": {
+              "reasoningEffort": "medium"
+            },
+            "high": {
+              "reasoningEffort": "high"
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh"
+            },
+            "max": {
+              "reasoningEffort": "max"
+            }
+          },
+          "limit": {
+            "context": 1000000,
+            "output": 128000
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        "claude-haiku-5-5": {
+          "name": "Claude Haiku 5.5 (Local)",
+          "tool_call": true,
+          "options": {
+            "reasoningEffort": "max"
+          },
+          "variants": {
+            "low": {
+              "reasoningEffort": "low"
+            },
+            "medium": {
+              "reasoningEffort": "medium"
+            },
+            "high": {
+              "reasoningEffort": "high"
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh"
+            },
+            "max": {
+              "reasoningEffort": "max"
+            }
+          },
+          "limit": {
+            "context": 200000,
+            "output": 64000
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        "glm-5.3": {
+          "name": "GLM-5.3 (Local)",
+          "tool_call": true,
+          "options": {
+            "reasoningEffort": "max"
+          },
+          "variants": {
+            "low": {
+              "reasoningEffort": "low"
+            },
+            "medium": {
+              "reasoningEffort": "medium"
+            },
+            "high": {
+              "reasoningEffort": "high"
+            },
+            "max": {
+              "reasoningEffort": "max"
+            }
+          },
+          "limit": {
+            "context": 1048576,
+            "output": 128000
+          },
+          "modalities": {
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "agents": {
+    "build": {
+      "disabled": true
+    },
+    "plan": {
+      "disabled": true
+    },
+    "chat": {
+      "disabled": true
+    },
+    "general": {
+      "description": "General-purpose agent for researching complex questions and executing multi-step tasks.",
+      "mode": "subagent",
+      "model": "vua/deepseek-v4.1-flash",
+      "system": "You are general, a general-purpose research and multi-step agent.\n<!-- finder-mandatory-v1 -->\n## Codebase search: Finder is MANDATORY\n\nEvery codebase lookup (find files, symbols, callers, flows, impact, tests) MUST go through the Finder MCP first. Skipping Finder is a rule violation.\n\n1. Call Finder via the `execute` tool: inside it run `search({query:'finder'})` to get exact paths, then `tools.finder[...]` with `workspace_full_path` = exact absolute repo root (e.g. `__EXAMPLE_REPO_2__`).\n2. Order: `index-status` → not approved? `approve-indexing` on the exact repo root (never home dir or `/`) → `finder` (unknown locations) / `file-finder` (known file, unknown range) / `context` or `impact` (known symbol).\n3. Fallback to `grep`/`glob`/`rg`/`read` ONLY when Finder errors, is unavailable, is warming, or returns empty — retry once first. Native grep/read is still allowed AFTER Finder to verify exact lines or do exhaustive literal checks.\n4. Finder results are leads: read the cited lines before claims or edits.\n5. Final message MUST include one line: `Retrieval: finder ok | finder empty -> grep | finder error -> grep | finder skipped (exact path given)`.\n",
+      "permissions": [
+        {
+          "action": "execute",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "search",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "finder_*",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "external_directory",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "shell",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "shell",
+          "resource": "rm -r *",
+          "effect": "ask"
+        },
+        {
+          "action": "shell",
+          "resource": "rm -rf *",
+          "effect": "ask"
+        },
+        {
+          "action": "shell",
+          "resource": "rm -fr *",
+          "effect": "ask"
+        },
+        {
+          "action": "shell",
+          "resource": "rm -R *",
+          "effect": "ask"
+        },
+        {
+          "action": "shell",
+          "resource": "rm -Rf *",
+          "effect": "ask"
+        },
+        {
+          "action": "shell",
+          "resource": "rm -fR *",
+          "effect": "ask"
+        },
+        {
+          "action": "shell",
+          "resource": "rm -r -f *",
+          "effect": "ask"
+        },
+        {
+          "action": "shell",
+          "resource": "rm -f -r *",
+          "effect": "ask"
+        },
+        {
+          "action": "shell",
+          "resource": "sudo *",
+          "effect": "ask"
+        },
+        {
+          "action": "shell",
+          "resource": "git push --force*",
+          "effect": "ask"
+        },
+        {
+          "action": "shell",
+          "resource": "git push -f*",
+          "effect": "ask"
+        },
+        {
+          "action": "shell",
+          "resource": "git reset --hard*",
+          "effect": "ask"
+        },
+        {
+          "action": "shell",
+          "resource": "git clean*",
+          "effect": "ask"
+        },
+        {
+          "action": "shell",
+          "resource": "chmod -R *",
+          "effect": "ask"
+        },
+        {
+          "action": "shell",
+          "resource": "chown -R *",
+          "effect": "ask"
+        },
+        {
+          "action": "shell",
+          "resource": "dropdb *",
+          "effect": "ask"
+        },
+        {
+          "action": "shell",
+          "resource": "truncate *",
+          "effect": "ask"
+        },
+        {
+          "action": "shell",
+          "resource": "fastlane *",
+          "effect": "ask"
+        },
+        {
+          "action": "shell",
+          "resource": "firebase deploy*",
+          "effect": "ask"
+        }
+      ]
+    },
+    "explore": {
+      "description": "Read-only code and web exploration.",
+      "mode": "subagent",
+      "model": "vua/deepseek-v4.1-flash",
+      "system": "You are explore, a read-only code explorer. Never create, edit, or delete files.\n<!-- finder-mandatory-v1 -->\n## Codebase search: Finder is MANDATORY\n\nEvery codebase lookup (find files, symbols, callers, flows, impact, tests) MUST go through the Finder MCP first. Skipping Finder is a rule violation.\n\n1. Call Finder via the `execute` tool: inside it run `search({query:'finder'})` to get exact paths, then `tools.finder[...]` with `workspace_full_path` = exact absolute repo root (e.g. `__EXAMPLE_REPO_2__`).\n2. Order: `index-status` → not approved? `approve-indexing` on the exact repo root (never home dir or `/`) → `finder` (unknown locations) / `file-finder` (known file, unknown range) / `context` or `impact` (known symbol).\n3. Fallback to `grep`/`glob`/`rg`/`read` ONLY when Finder errors, is unavailable, is warming, or returns empty — retry once first. Native grep/read is still allowed AFTER Finder to verify exact lines or do exhaustive literal checks.\n4. Finder results are leads: read the cited lines before claims or edits.\n5. Final message MUST include one line: `Retrieval: finder ok | finder empty -> grep | finder error -> grep | finder skipped (exact path given)`.\n",
+      "permissions": [
+        {
+          "action": "execute",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "search",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "finder_*",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "external_directory",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "shell",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "shell",
+          "resource": "rm -r *",
+          "effect": "ask"
+        },
+        {
+          "action": "shell",
+          "resource": "rm -rf *",
+          "effect": "ask"
+        },
+        {
+          "action": "shell",
+          "resource": "rm -fr *",
+          "effect": "ask"
+        },
+        {
+          "action": "shell",
+          "resource": "rm -R *",
+          "effect": "ask"
+        },
+        {
+          "action": "shell",
+          "resource": "rm -Rf *",
+          "effect": "ask"
+        },
+        {
+          "action": "shell",
+          "resource": "rm -fR *",
+          "effect": "ask"
+        },
+        {
+          "action": "shell",
+          "resource": "rm -r -f *",
+          "effect": "ask"
+        },
+        {
+          "action": "shell",
+          "resource": "rm -f -r *",
+          "effect": "ask"
+        },
+        {
+          "action": "shell",
+          "resource": "sudo *",
+          "effect": "ask"
+        },
+        {
+          "action": "shell",
+          "resource": "git push --force*",
+          "effect": "ask"
+        },
+        {
+          "action": "shell",
+          "resource": "git push -f*",
+          "effect": "ask"
+        },
+        {
+          "action": "shell",
+          "resource": "git reset --hard*",
+          "effect": "ask"
+        },
+        {
+          "action": "shell",
+          "resource": "git clean*",
+          "effect": "ask"
+        },
+        {
+          "action": "shell",
+          "resource": "chmod -R *",
+          "effect": "ask"
+        },
+        {
+          "action": "shell",
+          "resource": "chown -R *",
+          "effect": "ask"
+        },
+        {
+          "action": "shell",
+          "resource": "dropdb *",
+          "effect": "ask"
+        },
+        {
+          "action": "shell",
+          "resource": "truncate *",
+          "effect": "ask"
+        },
+        {
+          "action": "shell",
+          "resource": "fastlane *",
+          "effect": "ask"
+        },
+        {
+          "action": "shell",
+          "resource": "firebase deploy*",
+          "effect": "ask"
+        },
+        {
+          "action": "edit",
+          "resource": "*",
+          "effect": "deny"
+        },
+        {
+          "action": "todowrite",
+          "resource": "*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "git stash*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "git checkout*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "git switch*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "git restore*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "git reset*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "git add*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "git rm*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "git mv*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "git commit*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "git push*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "git pull*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "git clean*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "git rebase*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "git merge*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "git apply*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "git cherry-pick*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "git am*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "sed -i*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "perl -i*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "perl -pi*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "rm *",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "mv *",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "cp *",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "tee *",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "touch *",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "mkdir *",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "ln *",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "chmod *",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "chown *",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "truncate *",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "dart format*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "dart fix*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "dart pub*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "flutter pub*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "dart run build_runner*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "flutter create*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "flutter clean*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "fastlane *",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "firebase *",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "dart format --output=none*",
+          "effect": "allow"
+        },
+        {
+          "action": "shell",
+          "resource": "dart format -o none*",
+          "effect": "allow"
+        }
+      ]
+    },
+    "title": {
+      "model": "localproxyapi/deepseek-v4.1-flash"
+    },
+    "summary": {
+      "model": "localproxyapi/deepseek-v4.1-flash"
+    },
+    "compaction": {
+      "model": "localproxyapi/deepseek-v4.1-flash"
+    }
+  },
+  "mcp": {
+    "tavily": {
+      "type": "remote",
+      "url": "http://127.0.0.1:8765/tavily/mcp/",
+      "enabled": true,
+      "timeout": 1800000
+    },
+    "context7": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@upstash/context7-mcp@latest"
+      ],
+      "enabled": true,
+      "environment": {
+        "CONTEXT7_API_KEY": "{file:~/.secrets/opencode/context7-apikey}"
+      }
+    },
+    "vibervn-project-c": {
+      "type": "remote",
+      "url": "http://127.0.0.1:6699/mcp",
+      "enabled": false,
+      "timeout": 1800000
+    },
+    "finder": {
+      "type": "remote",
+      "url": "http://127.0.0.1:3636/mcp",
+      "enabled": true,
+      "headers": {
+        "Authorization": "Bearer {file:~/.secrets/opencode/finder-token}"
+      }
+    }
+  },
+  "permission": {
+    "edit": "allow",
+    "bash": {
+      "*": "allow",
+      "rm -rf *": "ask",
+      "git push --force*": "ask",
+      "git reset --hard*": "ask",
+      "git clean*": "ask",
+      "rm -r *": "ask",
+      "rm -fr *": "ask",
+      "rm -R *": "ask",
+      "rm -Rf *": "ask",
+      "rm -fR *": "ask",
+      "rm -r -f *": "ask",
+      "rm -f -r *": "ask",
+      "sudo *": "ask",
+      "git push -f*": "ask",
+      "chmod -R *": "ask",
+      "chown -R *": "ask",
+      "dropdb *": "ask",
+      "truncate *": "ask",
+      "fastlane *": "ask",
+      "firebase deploy*": "ask"
+    },
+    "external_directory": {
+      "*": "ask",
+      "~/.config/opencode/**": "allow",
+      "/tmp/**": "allow",
+      "/var/folders/**": "allow"
+    },
+    "webfetch": "allow",
+    "websearch": "allow",
+    "doom_loop": "ask",
+    "question": "allow",
+    "todowrite": "allow",
+    "finder_approve-indexing": "allow"
+  },
+  "compaction": {
+    "auto": true
+  },
+  "tool_output": {
+    "max_lines": 2000,
+    "max_bytes": 51200
+  },
+  "experimental": {
+    "mcp_timeout": 1800000
+  },
+  "plugins": [
+    "@prevalentware/opencode-goal-plugin"
+  ]
+}

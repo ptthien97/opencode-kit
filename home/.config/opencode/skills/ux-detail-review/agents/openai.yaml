@@ -1,0 +1,4 @@
+interface:
+  display_name: "UX Detail Review"
+  short_description: "디테일 중심 UX/UI 사용성 진단 및 개선 워크플로우"
+  default_prompt: "Use $ux-detail-review to analyze this UI and return prioritized, evidence-based UX detail improvements."

@@ -1,0 +1,101 @@
+{
+  "version": 24,
+  "embedding": {
+    "provider": "voyage",
+    "api_keys": [
+      "<REDACTED>"
+    ],
+    "embed_concurrency": 64,
+    "voyage_base_url": null,
+    "dimensions": null,
+    "local_model_path": null
+  },
+  "rerank": {
+    "backend": "voyage",
+    "api_keys": [
+      "<REDACTED>"
+    ],
+    "base_url": null,
+    "voyage_relevance_threshold": 0.3,
+    "voyage_top_n": null,
+    "voyage_relative_cut": null,
+    "voyage_min_keep": 10,
+    "jev_top_n": null,
+    "jev_score_threshold": null,
+    "voyage_doc_max_chars": null
+  },
+  "jev": {
+    "api_keys": [
+      "<REDACTED>"
+    ],
+    "base_url": null,
+    "model": "jev-latest",
+    "request_timeout_ms": 10000,
+    "routing": {
+      "enabled": true,
+      "widen_factor": 2.0,
+      "cache_entries": 256
+    },
+    "staleness": {
+      "enabled": true,
+      "max_chunks": 8
+    }
+  },
+  "precision": {
+    "graph_max_bonus_chunks": 20,
+    "graph_caller_score_factor": 0.6,
+    "graph_callee_score_factor": 0.5,
+    "graph_score_floor": 0.15,
+    "graph_pool_slots": 10,
+    "graph_direct_first": true,
+    "exploration_max_files": 25,
+    "pack_max_files": 15,
+    "rerank_pool_max": null,
+    "identifier_fast_path": true,
+    "rerank_min_prose_words": 0
+  },
+  "gateway": {
+    "base_url": "https://gateway.skillissuelab.com",
+    "api_key": "<REDACTED>",
+    "key_prefix": "<REDACTED>",
+    "expert_query": false
+  },
+  "open_on_launch": true,
+  "local_api_auth": true,
+  "degraded_lexical_fallback": true,
+  "mcp_index_wait_secs": 600,
+  "mcp_stale_after_days": 7,
+  "vector_resident_cap_mb": 2048,
+  "store_resident_cap_mb": 2048,
+  "vector_quantized_candidates": true,
+  "vector_quant_min_vectors": 50000,
+  "vector_quant_oversample": 5,
+  "index_watch_debounce_ms": 1000,
+  "storage_backend": "repostore",
+  "query_hybrid": true,
+  "worker_idle_secs": 300,
+  "index_reserved_cores": 6,
+  "data_dir": null,
+  "embeddings_dir": null,
+  "enabled_mcp_tools": [
+    "finder",
+    "file-finder",
+    "index-status",
+    "approve-indexing",
+    "list-repos",
+    "impact",
+    "context"
+  ],
+  "custom_extensions": [],
+  "index_ignore_filenames": [
+    "CLAUDE.md",
+    "AGENTS.md"
+  ],
+  "index_exclude_nested_repos": false,
+  "risk_thresholds": {
+    "fan_in_high": 50,
+    "max_affected_high": 100,
+    "max_files_medium": 20,
+    "max_untested_high": 10
+  }
+}

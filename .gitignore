@@ -1,0 +1,9 @@
+node_modules/
+*.log
+.DS_Store
+*.bak*
+__pycache__/
+*.pyc
+secrets/
+service.json
+.kit-local.env

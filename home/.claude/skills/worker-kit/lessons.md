@@ -1,0 +1,33 @@
+# Worker-kit lessons (read before writing any plan or brief)
+
+Each lesson comes from a real run that Opus graded. Root cause: **plan** (Claude
+wrote a weak brief), **worker** (the worker deviated), or **kit** (script/agent).
+Add a row after every graded phase; fix kit causes in the kit, not here.
+
+| Date | Run (ledger) | What happened | Root cause | Rule for future plans |
+|---|---|---|---|---|
+| 2026-10-25 | project-i Phase A–C (opencode free) | Worker stated "4 test failures are pre-existing" without running them on the base | worker | Every brief has T0 baseline; "pre-existing" only if listed in T0 |
+| 2026-10-25 | project-i Phase E | Logout path triggered an API call the brief never mentioned; worker did not notice | plan | Plan review must trace side effects (network, timers, DI) of each changed function and put them in Context |
+| 2026-10-25 | scratch resume test | Brief said "count callers"; Finder edges (11) included duplicates, real call sites were 7 | plan | Say exactly what to count/produce; exhaustive call sites come from `rg` on the identifier |
+| 2026-10-25 | scratch resume test | Worker wrote the value the check expected instead of the literal instruction | plan | Instruction and check must agree; checks assert behavior, not a literal the worker can copy |
+| 2026-10-25 | project-g C2 | `format_total` got no test in the repo test file; only an inline gate | plan | Every cluster adds/updates tests in the repo's test files; the Gate runs those files |
+| 2026-10-25 | project-g C2 | Currency format `20.00 VND` (decimals on VND) decided only inside the gate literal | plan | Domain details (currency, rounding, locale, copy text) are decided in Context or Rulings, never only in a gate |
+| 2026-10-25 | project-g C2 | "Do" line was vague; worker inferred the spec from the gate | plan | Every "Do" has exact code or an exact rule; the gate confirms, it never defines |
+| 2026-10-25 | project-g C2 | Worker skipped `[?]` because the run prompt said "Do not ask questions" | kit (fixed) | — |
+| 2026-10-25 | project-g C1/C2 | ~60-68k input tokens per cluster. Measured later: one step's prompt is ~6.8k tokens (mostly cached) with or without global instructions; the total grows with the number of tool-call steps | kit (measured) | Fewer, well-specified steps per cluster; exact code in Do lines avoids exploratory tool calls; ledger now shows cached tokens |
+| 2026-10-25 | project-h | A silent 40s command tripped a 10s idle watchdog | kit | Idle timeout must exceed the slowest command in the brief (flutter test: keep the 600s default) |
+| 2026-10-25 | project-g project-b C1 | Brief changed `total` semantics (percent → fraction) but did not list the existing test and `format_total`; worker stopped and asked (correct) | plan | Before changing behavior, list every caller and test of the symbol (rg + Finder) in Context and give each one an explicit instruction |
+| 2026-10-25 | project-g project-b C1 | After the change, `total`'s docstring still says "percentage" and the parameter is still `discount_pct` | plan | A semantic change must include the docstring/comment/parameter-name updates as exact code in the brief |
+| 2026-10-25 | project-g project-b C2 | Verify `grep -c "<text>" project-b.md` could never print 1: the text already appears in the brief itself; worker caught it | plan | Verify commands must not search files that contain the brief's own text (briefs, plans, logs) |
+| 2026-10-25 | recon Phase D | Finder `context` listed 1 caller of `MainTabs.open`; `rg` finds 10 (Dart static calls are missing from the graph); worker wrote "its only caller" in the Answer | plan + worker | Every caller list for a Dart static/class method needs an `rg` cross-check request in the brief; the worker must label graph-only answers "Finder graph only" |
+| 2026-10-25 | recon Phase D | dispatch.sh crashed (exit 2) because Claude edited the script while the run was in progress | kit (process) | Never edit kit scripts or worker.md while a dispatch is running |
+| 2026-10-25 | project-g project-a | On resume with an answers file, only the answers file was hash-protected | kit (fixed) | Resume with `--protect <original brief>` |
+| 2026-10-25 | selftest v5 S3/S5 | Worker asked correctly twice, but dispatch reported DONE: the v5 rewrite built the regex `\[?\]` (the `?` became a quantifier) so `[?]` lines never matched | kit (fixed) | Rerun `selftest.sh` after every kit change; it caught this |
+| 2026-10-25 | selftest v5 S4 | After the answer, the worker rewrote its earlier `[?]` line as "(resolved)", which would look like a new question | kit + worker (fixed) | Log is append-only (worker.md); script counts only new lines with `QUESTION:` that are not marked resolved |
+| 2026-10-25 | selftest v6 C1 | Same cluster as v5 took 5 steps / 39k input tokens instead of 15 steps / 104k: Edit blocks + script-run baseline/gate/review package + one log append | kit (measured win) | Always write Edit blocks; keep `TOKENS steps=` ≤ 2 per task + 1; more steps means the brief was imprecise → add a lesson |
+| 2026-10-26 | project-i project-f P1 lint | First dispatch refused: T0 line still had the template's `VERIFY_COMMAND` placeholder | plan | Fill the T0 baseline line with the real command when copying the template |
+| 2026-10-26 | project-i project-f P1 | Dispatch refused (exit 5): >30 min between preflight and dispatch while Claude fixed the brief | process | Preflight right before dispatch, after the brief lints clean; a local Edit-block check (old found once) before preflight avoids the gap |
+| 2026-10-26 | project-i project-f P1 C1/C2 | 3 tasks in 9 steps, 1 task in 8 steps; all 21 Edit blocks applied verbatim, gates green first try | worker (graded A) | Tests that need fake fields from later tasks: give earlier tasks an analyze-only Verify and run tests in the last task |
+| 2026-10-26 | project-i project-d P2 C1 | 16 steps for 2 tasks (11 Edit blocks across 3 files); later clusters 9-12 steps | plan | Keep a cluster to ≤ 2 files; split compile-fix edits of a second file into their own task |
+| 2026-10-26 | project-i project-d P3 | Claude compile-checked the UI code by placing it in the repo; fixing it there made the worker run redundant (user chose to keep) | plan (process) | Large new UI (> ~500 lines, design-heavy): plan it as runner Claude up front, or compile-check in a scratch worktree so the worker still types it |
+| 2026-10-26 | project-i project-d P3 | Widget test overflowed on tablet only because the test's ScreenUtilInit scaled fonts; app uses fontSizeResolver → design size | plan | Widget tests for tablet must mirror main.dart's ScreenUtilInit (designSize 375x812, fontSizeResolver returning the design size) |

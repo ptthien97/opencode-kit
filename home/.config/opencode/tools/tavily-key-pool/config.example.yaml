@@ -1,0 +1,45 @@
+# Copy to ~/.tavily-key-pool/config.yaml (outside git)
+
+pool:
+  db_path: ~/.tavily-key-pool/keys.db
+  profiles_dir: ~/.tavily-key-pool/profiles
+  debug_screenshots: ~/.tavily-key-pool/debug
+
+tavily:
+  dashboard_url: https://app.tavily.com/home
+  # Update selectors after inspecting dashboard (DevTools). Examples — verify on your UI.
+  selectors:
+    api_key_input: 'input[type="password"], input[readonly][value*="tvly"], [data-testid="api-key"] input'
+    api_key_text: '[class*="api-key"], code:has-text("tvly-")'
+    copy_button: 'button:has-text("Copy")'
+  key_regex: 'tvly-[A-Za-z0-9_-]+'
+
+rotation:
+  mode: round_robin # round_robin | weighted
+  cooldown_seconds: 60
+  max_failures_before_skip: 3
+  weights: {} # acc03: 2  — only for weighted
+  # Day of month (1-31) when plan credits reset. When set, a key rejected with
+  # 432 (quota exhausted) stays in cooldown until the next reset boundary
+  # instead of the fixed proxy.quota_cooldown_seconds timer.
+  quota_reset_day: 1
+
+# Accounts are created dynamically by `tavilylogin` and stored in SQLite.
+# A legacy `accounts:` list is accepted only for one-time placeholder migration.
+
+fetch:
+  delay_between_accounts_ms: 8000
+  navigation_timeout_ms: 60000
+  headed_login: true
+
+proxy:
+  bind: 127.0.0.1
+  port: 8765
+  upstream_mcp_base: https://mcp.tavily.com/mcp/
+  # query matches Tavily's documented remote-MCP URL. bearer/both are available
+  # for deployments that authenticate with Authorization: Bearer.
+  auth_mode: query # query | bearer | both
+  max_failover_attempts: 3
+  max_request_body_bytes: 1048576
+  session_affinity_ttl_seconds: 86400
+  quota_cooldown_seconds: 3600

@@ -1,0 +1,31 @@
+{
+  "name": "tavily-key-pool",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Fetch and rotate Tavily API keys across isolated browser profiles",
+  "scripts": {
+    "login": "tsx cli.ts login",
+    "fetch": "tsx cli.ts fetch",
+    "fetch-all": "tsx cli.ts fetch-all",
+    "status": "tsx cli.ts status",
+    "quota": "tsx cli.ts quota",
+    "import-key": "tsx cli.ts import-key",
+    "interactive-login": "tsx cli.ts interactive-login",
+    "interactive-logout": "tsx cli.ts interactive-logout",
+    "serve-proxy": "tsx cli.ts serve-proxy",
+    "test": "tsx test/all.ts",
+    "typecheck": "tsc --noEmit --module nodenext --moduleResolution nodenext --target es2022 cli.ts src/*.ts test/all.ts",
+    "postinstall": "playwright install chromium"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.7.0",
+    "playwright": "^1.49.0",
+    "yaml": "^2.6.1"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.11",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}
